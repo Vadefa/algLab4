@@ -59,10 +59,10 @@ namespace algLab4
                 else
                     return false;
             }
-            public void focus()
+            public void focus(Graphics paintForm)
             {
                 is_focused = true;
-                ActiveForm.Invalidate();
+                paint(paintForm);
             }
             public void unfocus()
             {
@@ -211,16 +211,28 @@ namespace algLab4
 
                 if (found == true)
                 {
-                    storage[i].focus();             // выделили вершину, на которую нажали
+                    storage[i].focus(paintForm);             // выделили вершину, на которую нажали
 
                     int j = 0;
-                    while (storage[j].focusCheck() != true && j < size)     // проверка, есть ли ещё выделенные вершины
+                    found = false;                  // проверка, есть ли ещё выделенные вершины
+                    while (found == false && j < size)
+                    {
+                        if (i != j && storage[j].focusCheck() == true)
+                        {
+                            found = true;
+                            continue;
+                        }
                         j++;
+                    }
 
                     if (j < size)
                     {                               // нужно создать ребро
 
+                        storage[i].unfocus();
+                        storage[j].unfocus();
                     }
+
+
 
                 }
                 else
