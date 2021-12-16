@@ -53,7 +53,7 @@ namespace algLab4
             }
         }
 
-        public class CCircle
+        public class Ver
         {
             private Rectangle rect;
             private int x;
@@ -69,7 +69,8 @@ namespace algLab4
             Pen defaultPen = new Pen(Color.Black, 4);
             Pen focusedPen = new Pen(Color.Blue, 4);
 
-            private Edge[] edges;
+            private List<Edge> edges;
+            private List<Ver> neighbours;
 
 
             //drawing method
@@ -118,7 +119,12 @@ namespace algLab4
                     return false;
             }
 
-            public CCircle(int x, int y, Graphics paintForm, char a)
+            public void addEdge(Edge edge)
+            {
+                edges.Add(edge);
+            }
+
+            public Ver(int x, int y, Graphics paintForm, char a)
             {
                 this.x = x - r - ((int)(focusedPen.Width / 2));
                 this.y = y - r - ((int)(focusedPen.Width / 2));
@@ -130,14 +136,17 @@ namespace algLab4
                 name_x = x - name_size + ((int)(focusedPen.Width / 2));
                 name_y = y - name_size;
 
-                paint(paintForm);
+                edges = new List<Edge>();
+                neighbours = new List<Ver>();
+
+            paint(paintForm);
                 
             }
         }
 
         public class MyStorage
         {
-            protected CCircle[] storage;
+            protected Ver[] storage;
             protected int iter;
             protected int size;
             protected int count;
@@ -150,7 +159,7 @@ namespace algLab4
                     if (storage[i] != null)
                         del = del + 1;
 
-                CCircle[] tempStorage = new CCircle[del];   // here we'll put elements that should remain
+                Ver[] tempStorage = new Ver[del];   // here we'll put elements that should remain
 
                 int j = 0;
                 for (int i = 0; i < size; i++)
@@ -166,15 +175,15 @@ namespace algLab4
                 if (iter < 0)
                     iter = 0;
 
-                storage = new CCircle[size];
+                storage = new Ver[size];
                 for (int i = 0; i < size; i++)
                     storage[i] = tempStorage[i];            // moved all remained elements
             }
             private void sizeImprove()
             {
-                CCircle[] tempStorage = storage;
+                Ver[] tempStorage = storage;
                 size = size + 1;
-                storage = new CCircle[size];
+                storage = new Ver[size];
 
                 for (int i = 0; i < size - 1; i++)
                     storage[i] = tempStorage[i];
@@ -182,10 +191,10 @@ namespace algLab4
 
             }
 
-            public void add(CCircle circle, Graphics ellipses)
+            public void add(Ver circle, Graphics ellipses)
             {
                 if (count != 0)
-                    foreach (CCircle c in storage)
+                    foreach (Ver c in storage)
                         c.unfocus();
 
                 if (iter < size)
@@ -209,7 +218,7 @@ namespace algLab4
                 iter = 0;
                 count = 0;
                 size = 1;
-                storage = new CCircle[size];
+                storage = new Ver[size];
             }
         }
 
@@ -268,17 +277,17 @@ namespace algLab4
 
                 }
                 else
-                    foreach (CCircle c in storage)
+                    foreach (Ver c in storage)
                         c.unfocus();
             }
             public void paint(Graphics paintForm)
             {
                 if (count != 0)
-                    foreach (CCircle circle in storage)
+                    foreach (Ver circle in storage)
                         circle.paint(paintForm);
             }
         }
-        // ended up for the storages and ccircle classes
+        // ended up for the storages and Ver classes
 
 
 
@@ -292,7 +301,7 @@ namespace algLab4
         {
             //PointToClient returns mouse position in relation to the form, not to the screen
             Point mousePos = PointToClient(new Point(Cursor.Position.X, Cursor.Position.Y));
-            storage.add(new CCircle(mousePos.X, mousePos.Y, paintForm, a), paintForm);
+            storage.add(new Ver(mousePos.X, mousePos.Y, paintForm, a), paintForm);
             a++;
         }
 
