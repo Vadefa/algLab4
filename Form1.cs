@@ -29,11 +29,11 @@ namespace algLab4
             private Rectangle rect;
             private int x;
             private int y;
-            private int r = 40;
+            private int r = 30;
             private bool is_focused;
 
-            Pen defaultPen = new Pen(Color.Blue, 6);
-            Pen focusedPen = new Pen(Color.Violet, 6);
+            Pen defaultPen = new Pen(Color.Black, 4);
+            Pen focusedPen = new Pen(Color.Blue, 4);
 
 
             //drawing method
