@@ -294,7 +294,6 @@ namespace algLab4
                 }
                 
                 remove();
-
                 //now at the form's paint event we won't draw elements those were focused. Let's make the form repaint it immediately.
                 ActiveForm.Invalidate();
             }
