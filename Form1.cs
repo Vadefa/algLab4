@@ -29,7 +29,7 @@ namespace algLab4
             private Point p1;
             private Point p2;
             
-            private Pen defaultPen = new Pen(Color.Black, 4);
+            private Pen defaultPen = new Pen(Color.Black, 2);
             private Pen spanningPen = new Pen(Color.Red, 4);        // для остовного дерева
 
             private bool is_spanning = false;
@@ -51,6 +51,11 @@ namespace algLab4
             {
                 this.p1 = p1;
                 this.p2 = p2;
+
+                p1.X += 30;
+                p1.Y += 30;
+                p2.X += 30;
+                p2.Y += 30;
 
                 vers = new List<Ver>() { ver1, ver2 };
                 paint(paintForm);
@@ -89,7 +94,7 @@ namespace algLab4
             }
             public Point getPos()
             {
-                return new Point(x, y);
+                return new Point(x + r + ((int)(focusedPen.Width / 2)), y + r + ((int)(focusedPen.Width / 2)));
             }
 
             // focus
@@ -147,7 +152,7 @@ namespace algLab4
                 edges = new List<Edge>();
                 neighbours = new List<Ver>();
 
-            paint(paintForm);
+                paint(paintForm);
                 
             }
         }
