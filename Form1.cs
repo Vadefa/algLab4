@@ -77,6 +77,8 @@ namespace algLab4
 
             Pen defaultPen = new Pen(Color.Black, 4);
             Pen focusedPen = new Pen(Color.Blue, 4);
+            SolidBrush defaultBrush = new SolidBrush(Color.White);
+            SolidBrush focusedBrush = new SolidBrush(Color.LightSkyBlue);
 
             public List<Edge> edges;
             private List<Ver> neighbours;
@@ -86,9 +88,15 @@ namespace algLab4
             public void paint(Graphics paintForm)
             {
                 if (is_focused == true)
+                {
                     paintForm.DrawEllipse(focusedPen, rect);
+                    paintForm.FillEllipse(focusedBrush, rect);
+                }
                 else
+                {
                     paintForm.DrawEllipse(defaultPen, rect);
+                    paintForm.FillEllipse(defaultBrush, rect);
+                }
 
                 paintForm.DrawString(name, new Font("Arial", name_size), new SolidBrush(Color.Black), name_x, name_y);
             }
