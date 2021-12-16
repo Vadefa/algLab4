@@ -24,6 +24,35 @@ namespace algLab4
             a = (char)65;
         }
 
+        public class Edge
+        {
+            private Point p1;
+            private Point p2;
+            
+            private Pen defaultPen = new Pen(Color.Black, 4);
+            private Pen spanningPen = new Pen(Color.Red, 4);        // для остовного дерева
+
+            private bool is_spanning = false;
+
+            public void make_spanning()
+            {
+                is_spanning = true;
+            }
+            
+            public void paint(Graphics paintForm)
+            {
+                if (is_spanning == false)
+                    paintForm.DrawLine(defaultPen, p1, p2);
+                else
+                    paintForm.DrawLine(spanningPen, p1, p2);
+            }
+            public Edge(int x1, int y1, int x2, int y2)
+            {
+                p1 = new Point(x1, y1);
+                p2 = new Point(x2, y2);
+            }
+        }
+
         public class CCircle
         {
             private Rectangle rect;
@@ -39,6 +68,9 @@ namespace algLab4
 
             Pen defaultPen = new Pen(Color.Black, 4);
             Pen focusedPen = new Pen(Color.Blue, 4);
+
+            private Edge[] edges;
+
 
             //drawing method
             public void paint(Graphics paintForm)
