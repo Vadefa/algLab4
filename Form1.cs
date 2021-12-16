@@ -47,12 +47,13 @@ namespace algLab4
                 else
                     paintForm.DrawLine(spanningPen, p1, p2);
             }
-            public Edge(Point p1, Point p2, Ver ver1, Ver ver2)
+            public Edge(Point p1, Point p2, Ver ver1, Ver ver2, Graphics paintForm)
             {
                 this.p1 = p1;
                 this.p2 = p2;
-                vers.Add(ver1);
-                vers.Add(ver2);
+
+                vers = new List<Ver>() { ver1, ver2 };
+                paint(paintForm);
             }
         }
 
@@ -72,7 +73,7 @@ namespace algLab4
             Pen defaultPen = new Pen(Color.Black, 4);
             Pen focusedPen = new Pen(Color.Blue, 4);
 
-            private List<Edge> edges;
+            public List<Edge> edges;
             private List<Ver> neighbours;
 
 
@@ -154,6 +155,7 @@ namespace algLab4
         public class MyStorage
         {
             protected Ver[] storage;
+            protected List<Edge> edges = new List<Edge>();
             protected int iter;
             protected int size;
             protected int count;
@@ -238,6 +240,7 @@ namespace algLab4
                     if (storage[i].focusCheck() == true)
                         storage[i] = null;                  // placing null in the storage at the elements we should delete
                 }
+                
                 remove();
 
                 //now at the form's paint event we won't draw elements those were focused. Let's make the form repaint it immediately.
@@ -275,9 +278,10 @@ namespace algLab4
 
                     if (j < size)
                     {                               // нужно создать ребро
-                        Edge edge = new Edge(storage[i].getPos(), storage[j].getPos(), storage[i], storage[j]);
+                        Edge edge = new Edge(storage[i].getPos(), storage[j].getPos(), storage[i], storage[j], paintForm);
                         storage[i].addEdge(edge);
                         storage[j].addEdge(edge);
+                        edges.Add(edge);
 
                         storage[i].unfocus();
                         storage[j].unfocus();
@@ -292,6 +296,9 @@ namespace algLab4
             }
             public void paint(Graphics paintForm)
             {
+                foreach (Edge e in edges)
+                    e.paint(paintForm);
+
                 if (count != 0)
                     foreach (Ver circle in storage)
                         circle.paint(paintForm);
