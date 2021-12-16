@@ -375,7 +375,7 @@ namespace algLab4
                         Och.Add(v);
                 }
 
-                foreach (Ver v in Och)
+                foreach (Ver v in ver.neighbours)
                     inWidth(v, Och, L);
 
 
@@ -386,6 +386,7 @@ namespace algLab4
                 List<Ver> L = new List<Ver>();
                 inWidth(storage[0], Och, L);
 
+                
             }
         }
         ///////// ended up for the storages and Ver classes
