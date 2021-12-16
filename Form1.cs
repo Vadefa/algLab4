@@ -44,6 +44,12 @@ namespace algLab4
             {
                 return vers.Contains(ver);
             }
+            public bool are_Connected(Ver ver1, Ver ver2)
+            {
+                bool a = vers.Contains(ver1);
+                bool b = vers.Contains(ver2);
+                return (a && b);
+            }
             
             public void paint(Graphics paintForm)
             {
@@ -324,6 +330,16 @@ namespace algLab4
 
                     if (j < size)
                     {                               // нужно создать ребро
+                        
+                        storage[i].unfocus();
+                        storage[j].unfocus();
+                        
+                        foreach (Edge e in edges)
+                        {
+                            if (e.are_Connected(storage[i], storage[j]))
+                                return;
+                        }
+
                         Edge edge = new Edge(storage[i].getPos(), storage[j].getPos(), storage[i], storage[j], paintForm);
                         storage[i].addEdge(edge);
                         storage[j].addEdge(edge);
@@ -332,12 +348,7 @@ namespace algLab4
                         storage[i].addNeighbour(storage[j]);
                         storage[j].addNeighbour(storage[i]);
 
-                        storage[i].unfocus();
-                        storage[j].unfocus();
                     }
-
-
-
                 }
                 else
                     foreach (Ver c in storage)
