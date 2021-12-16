@@ -91,8 +91,8 @@ namespace algLab4
             SolidBrush defaultBrush = new SolidBrush(Color.White);
             SolidBrush focusedBrush = new SolidBrush(Color.LightSkyBlue);
 
-            public List<Edge> edges;
-            private List<Ver> neighbours;
+            public List<Edge> edges = new List<Edge>();
+            public List<Ver> neighbours = new List<Ver>();
 
 
             //drawing method
@@ -189,9 +189,6 @@ namespace algLab4
                 name_size = 14;
                 name_x = x - name_size + ((int)(focusedPen.Width / 2));
                 name_y = y - name_size;
-
-                edges = new List<Edge>();
-                neighbours = new List<Ver>();
 
                 paint(paintForm);
                 
@@ -362,8 +359,36 @@ namespace algLab4
                     foreach (Ver circle in storage)
                         circle.paint(paintForm);
             }
+
+            public void inWidth(Ver ver, List<Ver> Och, List<Ver> L)
+            {
+                Och.Remove(ver);
+
+                if (L.Contains(ver) == false)
+                    L.Add(ver);
+                else
+                    return;
+
+                foreach (Ver v in ver.neighbours)
+                {
+                    if (L.Contains(v) == false)
+                        Och.Add(v);
+                }
+
+                foreach (Ver v in Och)
+                    inWidth(v, Och, L);
+
+
+            }
+            public void inWidthPrep()
+            {
+                List<Ver> Och = new List<Ver>();
+                List<Ver> L = new List<Ver>();
+                inWidth(storage[0], Och, L);
+
+            }
         }
-        // ended up for the storages and Ver classes
+        ///////// ended up for the storages and Ver classes
 
 
 
@@ -394,6 +419,11 @@ namespace algLab4
         private void button2_Click(object sender, EventArgs e)
         {
             storage.removeFocused(paintForm);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            storage.inWidthPrep();
         }
     }
 }
