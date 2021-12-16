@@ -14,14 +14,14 @@ namespace algLab4
     {
         StorService storage;
         Graphics paintForm;
-        bool ctrl;
+        char a;
         public Form1()
         {
             InitializeComponent();
 
             paintForm = CreateGraphics();
             storage = new StorService();
-
+            a = (char)65;
         }
 
         public class CCircle
@@ -32,19 +32,24 @@ namespace algLab4
             private int r = 30;
             private bool is_focused;
 
+            private string name;
+            private int name_x;
+            private int name_y;
+            private int name_size;
+
             Pen defaultPen = new Pen(Color.Black, 4);
             Pen focusedPen = new Pen(Color.Blue, 4);
-
 
             //drawing method
             public void paint(Graphics paintForm)
             {
-                if (this.is_focused == true)
+                if (is_focused == true)
                     paintForm.DrawEllipse(focusedPen, rect);
                 else
                     paintForm.DrawEllipse(defaultPen, rect);
-            }
 
+                paintForm.DrawString(name, new Font("Arial", name_size), new SolidBrush(Color.Black), name_x, name_y);
+            }
 
             // focus
             public bool focusCheck()
@@ -81,18 +86,22 @@ namespace algLab4
                     return false;
             }
 
-            public CCircle(int x, int y, Graphics paintForm)
+            public CCircle(int x, int y, Graphics paintForm, char a)
             {
                 this.x = x - r - ((int)(focusedPen.Width / 2));
                 this.y = y - r - ((int)(focusedPen.Width / 2));
                 is_focused = true;
                 rect = new Rectangle(this.x, this.y, r * 2, r * 2);
 
+                name = a.ToString();
+                name_size = 14;
+                name_x = x - name_size + ((int)(focusedPen.Width / 2));
+                name_y = y - name_size;
+
                 paint(paintForm);
+                
             }
         }
-
-
 
         public class MyStorage
         {
@@ -108,7 +117,6 @@ namespace algLab4
                 for (int i = 0; i < size; i++)
                     if (storage[i] != null)
                         del = del + 1;
-
 
                 CCircle[] tempStorage = new CCircle[del];   // here we'll put elements that should remain
 
@@ -126,7 +134,6 @@ namespace algLab4
                 if (iter < 0)
                     iter = 0;
 
-
                 storage = new CCircle[size];
                 for (int i = 0; i < size; i++)
                     storage[i] = tempStorage[i];            // moved all remained elements
@@ -134,15 +141,11 @@ namespace algLab4
             private void sizeImprove()
             {
                 CCircle[] tempStorage = storage;
-
-
                 size = size + 1;
-
                 storage = new CCircle[size];
 
                 for (int i = 0; i < size - 1; i++)
                     storage[i] = tempStorage[i];
-
                 storage[size - 1] = null;
 
             }
@@ -187,19 +190,16 @@ namespace algLab4
                     if (storage[i].focusCheck() == true)
                         storage[i] = null;                  // placing null in the storage at the elements we should delete
                 }
-
                 remove();
 
                 //now at the form's paint event we won't draw elements those were focused. Let's make the form repaint it immediately.
                 ActiveForm.Invalidate();
             }
 
-
-            public void focusOnClick(Graphics paintForm, int x_mouse, int y_mouse, bool ctrl)
+            public void focusOnClick(Graphics paintForm, int x_mouse, int y_mouse)
             {
                 if (count == 0)
                     return;
-
 
                 int i = size;
                 bool found = false;
@@ -209,18 +209,14 @@ namespace algLab4
                     found = storage[i].checkUnderMouse(paintForm, x_mouse, y_mouse);
                 }
 
-
                 if (found == true)
                 {
-                    if (ctrl == false)
-                        foreach (CCircle circle in storage)
-                            circle.unfocus();
+                    foreach (CCircle c in storage)
+                        c.unfocus();
 
                     storage[i].focus();
                 }
-
             }
-
             public void paint(Graphics paintForm)
             {
                 if (count != 0)
@@ -235,7 +231,6 @@ namespace algLab4
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
             paintForm = CreateGraphics();
-
             storage.paint(paintForm);
         }
 
@@ -243,7 +238,8 @@ namespace algLab4
         {
             //PointToClient returns mouse position in relation to the form, not to the screen
             Point mousePos = PointToClient(new Point(Cursor.Position.X, Cursor.Position.Y));
-            storage.add(new CCircle(mousePos.X, mousePos.Y, paintForm), paintForm);
+            storage.add(new CCircle(mousePos.X, mousePos.Y, paintForm, a), paintForm);
+            a++;
         }
 
 
@@ -252,24 +248,13 @@ namespace algLab4
             if (e.Button == MouseButtons.Left)
             {
                 Point mousePos = PointToClient(new Point(Cursor.Position.X, Cursor.Position.Y));
-                storage.focusOnClick(paintForm, mousePos.X, mousePos.Y, ctrl);
+                storage.focusOnClick(paintForm, mousePos.X, mousePos.Y);
             }
         }
 
-        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        private void button2_Click(object sender, EventArgs e)
         {
-            if (e.KeyCode == Keys.Delete)
-                storage.removeFocused(paintForm);
-
-            if (e.KeyCode == Keys.ControlKey)
-                ctrl = true;
-
-        }
-
-        private void Form1_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.ControlKey)
-                ctrl = false;
+            storage.removeFocused(paintForm);
         }
     }
 }
