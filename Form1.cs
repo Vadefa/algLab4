@@ -39,6 +39,11 @@ namespace algLab4
             {
                 is_spanning = true;
             }
+
+            public bool is_Connected(Ver ver)
+            {
+                return vers.Contains(ver);
+            }
             
             public void paint(Graphics paintForm)
             {
@@ -105,6 +110,24 @@ namespace algLab4
                 return new Point(x + r + ((int)(focusedPen.Width / 2)), y + r + ((int)(focusedPen.Width / 2)));
             }
 
+            public void edgeRemove(Edge edge)
+            {
+                edges.Remove(edge);
+            }
+            public void neighbourRemove(Ver ver, List<Edge> edges)
+            {
+                foreach (Edge edge in this.edges)
+                {
+                    if (edge.is_Connected(ver))
+                    {
+                        edgeRemove(edge);
+                        edges.Remove(edge);
+                        break;
+                    }
+                }
+                neighbours.Remove(ver);
+            }
+
             // focus
             public bool focusCheck()
             {
@@ -143,6 +166,10 @@ namespace algLab4
             public void addEdge(Edge edge)
             {
                 edges.Add(edge);
+            }
+            public void addNeighbour(Ver ver)
+            {
+                neighbours.Add(ver);
             }
 
             public Ver(int x, int y, Graphics paintForm, char a)
@@ -251,7 +278,13 @@ namespace algLab4
                 for (int i = 0; i < size; i++)
                 {
                     if (storage[i].focusCheck() == true)
+                    {
+                        foreach (Ver ver in storage)
+                            ver.neighbourRemove(storage[i], edges);
+
+                            
                         storage[i] = null;                  // placing null in the storage at the elements we should delete
+                    }
                 }
                 
                 remove();
@@ -295,6 +328,9 @@ namespace algLab4
                         storage[i].addEdge(edge);
                         storage[j].addEdge(edge);
                         edges.Add(edge);
+
+                        storage[i].addNeighbour(storage[j]);
+                        storage[j].addNeighbour(storage[i]);
 
                         storage[i].unfocus();
                         storage[j].unfocus();
