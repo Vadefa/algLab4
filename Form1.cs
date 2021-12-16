@@ -211,11 +211,21 @@ namespace algLab4
 
                 if (found == true)
                 {
+                    storage[i].focus();             // выделили вершину, на которую нажали
+
+                    int j = 0;
+                    while (storage[j].focusCheck() != true && j < size)     // проверка, есть ли ещё выделенные вершины
+                        j++;
+
+                    if (j < size)
+                    {                               // нужно создать ребро
+
+                    }
+
+                }
+                else
                     foreach (CCircle c in storage)
                         c.unfocus();
-
-                    storage[i].focus();
-                }
             }
             public void paint(Graphics paintForm)
             {
