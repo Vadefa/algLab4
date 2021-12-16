@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31911.196
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "algLab4", "algLab4.csproj", "{3BE7A166-CAC6-4E16-9363-B44EE9E79447}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3BE7A166-CAC6-4E16-9363-B44EE9E79447}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BE7A166-CAC6-4E16-9363-B44EE9E79447}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BE7A166-CAC6-4E16-9363-B44EE9E79447}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BE7A166-CAC6-4E16-9363-B44EE9E79447}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {52B347C8-7579-453B-A573-A7246D8449AE}
+	EndGlobalSection
+EndGlobal
