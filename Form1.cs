@@ -85,7 +85,7 @@ namespace algLab4
             private int r = 30;
             private bool is_focused;
 
-            private string name;
+            public string name;
             private int name_x;
             private int name_y;
             private int name_size;
@@ -418,7 +418,7 @@ namespace algLab4
 
 
             }
-            public void inWidthPrep(Graphics paintForm)
+            public string inWidthPrep(Graphics paintForm)
             {
                 List<Ver> Och = new List<Ver>();
                 List<Ver> L = new List<Ver>();
@@ -437,7 +437,7 @@ namespace algLab4
                 if (L.Count != count)
                 {
                     MessageBox.Show("Граф несвязный.");
-                    return;
+                    return "";
                 }
                 else
                 {
@@ -449,6 +449,11 @@ namespace algLab4
                     foreach (Edge e in edges)
                         e.make_default();
 
+                    string res = "";
+                    foreach (Ver v in L)
+                        res += v.name;
+
+                    return res;
                 }
             }
         }
@@ -487,7 +492,9 @@ namespace algLab4
 
         private void button1_Click(object sender, EventArgs e)
         {
-            storage.inWidthPrep(paintForm);
+            string res = storage.inWidthPrep(paintForm);
+            if (res != "")
+                label1.Text = "Путь: " + res;
         }
     }
 }
