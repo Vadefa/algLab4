@@ -67,10 +67,10 @@ namespace algLab4
                 this.p1 = p1;
                 this.p2 = p2;
 
-                p1.X += 30;
-                p1.Y += 30;
-                p2.X += 30;
-                p2.Y += 30;
+                p1.X += ver1.r;
+                p1.Y += ver1.r;
+                p2.X += ver2.r;
+                p2.Y += ver2.r;
 
                 vers = new List<Ver>() { ver1, ver2 };
                 paint(paintForm);
@@ -82,7 +82,7 @@ namespace algLab4
             private Rectangle rect;
             private int x;
             private int y;
-            private int r = 30;
+            public int r = 30;
             private bool is_focused;
 
             public string name;
