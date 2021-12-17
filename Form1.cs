@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace algLab4
@@ -39,7 +40,10 @@ namespace algLab4
             {
                 is_spanning = true;
             }
-
+            public void make_default()
+            {
+                is_spanning = false;
+            }
             public bool is_Connected(Ver ver)
             {
                 return vers.Contains(ver);
@@ -94,6 +98,7 @@ namespace algLab4
             public List<Edge> edges = new List<Edge>();
             public List<Ver> neighbours = new List<Ver>();
 
+            public bool is_spanned = false;
 
             //drawing method
             public void paint(Graphics paintForm)
@@ -176,6 +181,22 @@ namespace algLab4
             public void addNeighbour(Ver ver)
             {
                 neighbours.Add(ver);
+            }
+
+            public bool neighbourCheck(Ver ver)
+            {
+                return neighbours.Contains(ver);
+            }
+            public void span(Ver ver, Graphics paintForm)
+            {
+                foreach (Edge edge in edges)
+                {
+                    if (edge.are_Connected(this, ver) && ver.is_spanned == false)
+                    {
+                        edge.make_spanning();
+                        ver.is_spanned = true;
+                    }
+                }
             }
 
             public Ver(int x, int y, Graphics paintForm, char a)
@@ -285,11 +306,11 @@ namespace algLab4
                         foreach (Ver ver in storage)
                             ver.neighbourRemove(storage[i], edges);
 
-                            
+
                         storage[i] = null;                  // placing null in the storage at the elements we should delete
                     }
                 }
-                
+
                 remove();
                 //now at the form's paint event we won't draw elements those were focused. Let's make the form repaint it immediately.
                 ActiveForm.Invalidate();
@@ -326,10 +347,10 @@ namespace algLab4
 
                     if (j < size)
                     {                               // нужно создать ребро
-                        
+
                         storage[i].unfocus();
                         storage[j].unfocus();
-                        
+
                         foreach (Edge e in edges)
                         {
                             if (e.are_Connected(storage[i], storage[j]))
@@ -360,6 +381,23 @@ namespace algLab4
                         circle.paint(paintForm);
             }
 
+            public void paintSpan(List<Ver> L, Graphics paintForm)
+            {
+                for (int i = 0; i < L.Count - 1; i++)
+                    for (int j = i + 1; j < L.Count; j++)
+                        if (L[i].neighbourCheck(L[j]) == true)
+                        {
+                            L[i].span(L[j], paintForm);
+                            paint(paintForm);
+                            Thread.Sleep(250);
+                        }
+                        else
+                        {
+                            L[i].is_spanned = true;
+                            continue;
+                        }
+            }
+
             public void inWidth(Ver ver, List<Ver> Och, List<Ver> L)
             {
                 Och.Remove(ver);
@@ -380,13 +418,38 @@ namespace algLab4
 
 
             }
-            public void inWidthPrep()
+            public void inWidthPrep(Graphics paintForm)
             {
                 List<Ver> Och = new List<Ver>();
                 List<Ver> L = new List<Ver>();
-                inWidth(storage[0], Och, L);
 
-                
+                bool found = false;
+                foreach (Ver v in storage)
+                    if (v.focusCheck() == true)
+                    {
+                        inWidth(v, Och, L);
+                        found = true;
+                    }
+
+                if (found == false)
+                    inWidth(storage[0], Och, L);
+
+                if (L.Count != count)
+                {
+                    MessageBox.Show("Граф несвязный.");
+                    return;
+                }
+                else
+                {
+                    paintSpan(L, paintForm);
+
+                    foreach (Ver v in storage)
+                        v.is_spanned = false;
+
+                    foreach (Edge e in edges)
+                        e.make_default();
+
+                }
             }
         }
         ///////// ended up for the storages and Ver classes
@@ -424,7 +487,7 @@ namespace algLab4
 
         private void button1_Click(object sender, EventArgs e)
         {
-            storage.inWidthPrep();
+            storage.inWidthPrep(paintForm);
         }
     }
 }
