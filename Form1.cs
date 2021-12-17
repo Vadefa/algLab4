@@ -31,7 +31,7 @@ namespace algLab4
             private Point p2;
             
             private Pen defaultPen = new Pen(Color.Black, 2);
-            private Pen spanningPen = new Pen(Color.Red, 4);        // для остовного дерева
+            private Pen spanningPen = new Pen(Color.Red, 6);        // для остовного дерева
 
             private bool is_spanning = false;
             private List<Ver> vers;
@@ -419,7 +419,10 @@ namespace algLab4
             }
             public string inWidthPrep(Graphics paintForm)
             {
-                List<Ver> Och = new List<Ver>();
+                if (count == 0)
+                    return "";
+
+                List <Ver> Och = new List<Ver>();
                 List<Ver> L = new List<Ver>();
 
                 bool found = false;
@@ -501,6 +504,8 @@ namespace algLab4
             string res = storage.inWidthPrep(paintForm);
             if (res != "")
                 label1.Text = "Путь: " + res;
+            else
+                label1.Text = "";
         }
 
         private void button3_Click(object sender, EventArgs e)
