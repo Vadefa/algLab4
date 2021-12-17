@@ -446,7 +446,7 @@ namespace algLab4
                 if (L.Count != count)
                 {
                     MessageBox.Show("Граф несвязный.");
-                    return "";
+                    return "нет";
                 }
                 else
                 {
