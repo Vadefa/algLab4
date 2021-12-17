@@ -389,7 +389,7 @@ namespace algLab4
                         {
                             L[i].span(L[j], paintForm);
                             paint(paintForm);
-                            Thread.Sleep(250);
+                            Thread.Sleep(500);
                         }
                         else
                         {
@@ -403,7 +403,9 @@ namespace algLab4
                 Och.Remove(ver);
 
                 if (L.Contains(ver) == false)
+                {
                     L.Add(ver);
+                }
                 else
                     return;
 
@@ -413,9 +415,6 @@ namespace algLab4
                         Och.Add(v);
                 }
 
-                foreach (Ver v in ver.neighbours)
-                    inWidth(v, Och, L);
-
 
             }
             public string inWidthPrep(Graphics paintForm)
@@ -424,16 +423,23 @@ namespace algLab4
                 List<Ver> L = new List<Ver>();
 
                 bool found = false;
-                foreach (Ver v in storage)
-                    if (v.focusCheck() == true)
+                for (int i = 0; i < size; i++)
+                    if (storage[i].focusCheck() == true)
                     {
-                        inWidth(v, Och, L);
+                        inWidth(storage[i], Och, L);
+                        while (Och.Count != 0)
+                            inWidth(Och[0], Och, L);
+
                         found = true;
+                        break;
                     }
 
                 if (found == false)
+                {
                     inWidth(storage[0], Och, L);
-
+                    while (Och.Count != 0)
+                        inWidth(Och[0], Och, L);
+                }
                 if (L.Count != count)
                 {
                     MessageBox.Show("Граф несвязный.");
@@ -495,6 +501,14 @@ namespace algLab4
             string res = storage.inWidthPrep(paintForm);
             if (res != "")
                 label1.Text = "Путь: " + res;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            storage.remove();
+            storage = new StorService();
+            a = (char)65;
+            ActiveForm.Invalidate();
         }
     }
 }
