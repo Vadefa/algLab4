@@ -30,10 +30,10 @@ namespace algLab4
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.button3 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -48,6 +48,16 @@ namespace algLab4
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(338, 150);
             this.panel1.TabIndex = 0;
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(103, 82);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(94, 51);
+            this.button3.TabIndex = 6;
+            this.button3.Text = "Очистить форму";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // label1
             // 
@@ -73,19 +83,9 @@ namespace algLab4
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(94, 73);
             this.button1.TabIndex = 3;
-            this.button1.Text = "Найти остовные деревья";
+            this.button1.Text = "Найти остовное дерево";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(103, 82);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(94, 51);
-            this.button3.TabIndex = 6;
-            this.button3.Text = "Очистить форму";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // Form1
             // 
